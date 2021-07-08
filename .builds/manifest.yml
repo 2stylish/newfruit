@@ -1,0 +1,13 @@
+image: fedora/rawhide
+packages:
+  - cmake
+  - meson
+sources:
+  - https://git.sr.ht/~hyakuburns/newfruit
+tasks:
+  - setup: |
+      cd newfruit
+      meson build 
+  - build: |
+      cd newfruit
+      ninja -C build

@@ -1,0 +1,28 @@
+{
+    "projects" : [
+      
+      "etr" : {
+        "path" : "~/Documents/pj/el_tercero",
+        "depends" : [
+          "~/Documents/pj/comfyheaders",
+          "~/Documents/pj/zzzz"
+        ],
+        "subpjs" : [
+          "~/Documents/pj/trash"
+        ]
+      },
+
+      "hehe" : {
+        "path" : "~/Documents/pj/lmfao",
+        "depends" : [
+          "none"
+        ],
+        "subpjs" : [
+          "none"
+        ]
+      }
+
+    ]
+
+}
+
