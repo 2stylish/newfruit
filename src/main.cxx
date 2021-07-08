@@ -30,7 +30,7 @@ int main(void) {
   getmaxyx(stdscr, column, row);
   mvwprintw(stdscr, 1, 1, "lmfao");
   refresh();
-  getch();
+  //  getch();
 
   std::cout << row << column << std::endl;
 
