@@ -1,11 +1,22 @@
+
 #include <ncurses.h>
 #include <cstdbool>
 #include <iostream>
 
 // THINK: perhaps we could make it so projects started with etr have a name
+#define cmvwprintw(screen, y, x, attrnum, format, ...) \
+  attron(COLOR_PAIR(attrnum));                         \
+  mvwprintw(screen, y, x, format, ##__VA_ARGS__);      \
+  attroff(COLOR_PAIR(attrnum));
+#define amvwprintw(screen, y, x, attrnum, format, ...) \
+  attron(attrnum);                                     \
+  mvwprintw(screen, y, x, format, ##__VA_ARGS__);      \
+  attroff(attrnum);
 
 enum colours {
   GREEN1 = 1,
+  BAR,
+  TEXTBAR,
 };
 
 int main(void) {
@@ -18,12 +29,18 @@ int main(void) {
 
   if (has_colors() == TRUE) {  // check color support
     start_color();             // start color mode
-    init_pair(GREEN1, 46, COLOR_BLACK);
+    use_default_colors();      // get transparency if avail
+
+    init_pair(2, COLOR_WHITE, -1);
+    init_pair(GREEN1, 46, -1);
+    init_pair(BAR, 60, -1);
+    init_pair(TEXTBAR, -1, 60);
+    //    wbkgd(stdscr, COLOR_PAIR(2));
   }
 
   noecho();     // no showing the chars
   cbreak();     // line buffering disabled
-  curs_set(1);  // set cursor visibility O_O 8=D
+  curs_set(0);  // set cursor visibility O_O 8=D
 
   keypad(stdscr, TRUE);  // allow arrow keys and f's in main window
 
@@ -41,20 +58,17 @@ int main(void) {
                   * 9. br: character to be used for the bottom right corner of the window
                   */
 
-  attron(A_STANDOUT);
-  //  attron(A_REVERSE);
-  mvwprintw(stdscr, 1, 1, "lmfao");
-  mvchgat(1, 1, -1, A_STANDOUT, GREEN1, NULL);
+  mvchgat(1, 1, -1, A_STANDOUT, BAR, NULL);
+
+  cmvwprintw(stdscr, 1, 1, TEXTBAR, "lmfao");
   refresh();
-  //  attroff(A_REVERSE);
-  attroff(A_STANDOUT);
 
   while ((ch = getch()) != 'q') {
     getyx(stdscr, ypos, xpos);
-    attron(COLOR_PAIR(GREEN1));
-    mvwprintw(stdscr, 0, 0, "cursor pos y: %d x: %d", maxy, maxx);
+    cmvwprintw(stdscr, 0, 0, GREEN1, "cursor pos y: %d x: %d", ypos, xpos);
+    mvchgat(1, 1, -1, A_STANDOUT, BAR, NULL);
     // mvchgat(1, 1, -1, A_NORMAL, 1, NULL);
-    attroff(COLOR_PAIR(GREEN1));
+    cmvwprintw(stdscr, 1, 1, TEXTBAR, "lmfao");
     refresh();
   }
 
