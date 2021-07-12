@@ -7,7 +7,7 @@ sources:
 tasks:
   - setup: |
       cd newfruit
-      meson build 
+      make debug
   - build: |
       cd newfruit
-      ninja -C build
+      make
