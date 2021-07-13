@@ -1,7 +1,6 @@
 image: archlinux
 packages:
-  - cmake
-  - meson
+  - gcc
   - ncurses
   - json
   - nlohmann-json
