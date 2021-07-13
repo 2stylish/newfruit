@@ -4,7 +4,6 @@
 #include <fstream>
 #include <iostream>
 #include <nlohmann/json.hpp>
-// using json = nlohmann::json;
 
 // THINK: perhaps we could make it so projects started with etr have a name
 #define cmvwprintw(screen, y, x, attrnum, format, ...) \

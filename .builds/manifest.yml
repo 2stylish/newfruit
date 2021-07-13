@@ -1,13 +1,16 @@
-image: fedora/rawhide
+image: archlinux
 packages:
   - cmake
   - meson
+  - ncurses
+  - json
+  - nlohmann-json
 sources:
-  - https://git.sr.ht/~hyakuburns/newfruit
+  - https://git.sr.ht/~_2stylish/newfruit
 tasks:
   - setup: |
       cd newfruit
-      make debug
+      make
   - build: |
       cd newfruit
-      make
+      make release
