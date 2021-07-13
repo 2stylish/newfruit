@@ -1,6 +1,7 @@
 #include <ncurses.h>
 #include <cstdbool>
 #include <iostream>
+#include <nlohmann/json.hpp>
 
 // THINK: perhaps we could make it so projects started with etr have a name
 #define cmvwprintw(screen, y, x, attrnum, format, ...) \
@@ -43,7 +44,7 @@ int main(void) {
 
   keypad(stdscr, TRUE);  // allow arrow keys and f's in main window
 
-  wborder(stdscr, ' ', ' ', '=', '=', '+', '+', '+',
+  wborder(stdscr, ' ', '|', '=', '=', '+', '+', '+',
           '+');  // add border to default screen
                  /* The parameters taken are
                   * 1. win: the window on which to operate
@@ -62,17 +63,29 @@ int main(void) {
   cmvwprintw(stdscr, 1, 1, TEXTBAR, "lmfao");
   refresh();
 
+  int i = 0;
+
   while ((ch = getch()) != 'q') {
+    if (is_term_resized(maxy, maxx)) {
+      i++;
+      clear();
+      wborder(stdscr, ' ', '|', '=', '=', '+', '+', '+',
+              '+');  // add border to default screen
+    }
+    getmaxyx(stdscr, maxy,
+             maxx);  // get info of terminal
+                     // we do this after because otherwise the is_term_resized
+                     // would give us true everytime
     getyx(stdscr, ypos, xpos);
-    cmvwprintw(stdscr, 0, 0, GREEN1, "cursor pos y: %d x: %d", ypos, xpos);
+    //    cmvwprintw(stdscr, 2, 2, GREEN1, "cursor pos y: %d x: %d", i, maxx);
     mvchgat(1, 1, -1, A_STANDOUT, BAR, NULL);
     // mvchgat(1, 1, -1, A_NORMAL, 1, NULL);
+    mvwprintw(stdscr, 2, 1, "hehe");
     cmvwprintw(stdscr, 1, 1, TEXTBAR, "lmfao");
     refresh();
   }
 
   endwin();  // end curses
 
-  std::cout << "row: " << xpos << "\ncolumn: " << ypos << std::endl;
+  std::cout << "row: " << maxx << "\ncolumn: " << maxy << std::endl;
 }
-
