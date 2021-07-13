@@ -40,7 +40,6 @@ int main(void) {
   for (auto lmao : keyz) {
     std::cout << lmao << std::endl;
   }
-  exit(EXIT_FAILURE);
   initscr();                     // start curses
   getmaxyx(stdscr, maxy, maxx);  // get info of terminal
 
@@ -75,16 +74,16 @@ int main(void) {
                   * 9. br: character to be used for the bottom right corner of the window
                   */
 
+  /*  */
+  // TODO: GET FULL VALUES OF VECTORS AYOOOO
+  /*  */
   mvchgat(1, 1, -1, A_STANDOUT, BAR, NULL);
 
   cmvwprintw(stdscr, 1, 1, TEXTBAR, "lmfao");
   refresh();
-
-  int i = 0;
-
   while ((ch = getch()) != 'q') {
+    int i = 1;
     if (is_term_resized(maxy, maxx)) {
-      i++;
       clear();
       wborder(stdscr, ' ', '|', '=', '=', '+', '+', '+',
               '+');  // add border to default screen
@@ -97,8 +96,11 @@ int main(void) {
     //    cmvwprintw(stdscr, 2, 2, GREEN1, "cursor pos y: %d x: %d", i, maxx);
     mvchgat(1, 1, -1, A_STANDOUT, BAR, NULL);
     // mvchgat(1, 1, -1, A_NORMAL, 1, NULL);
-    mvwprintw(stdscr, 2, 1, "hehe");
     cmvwprintw(stdscr, 1, 1, TEXTBAR, "lmfao");
+    mvwprintw(stdscr, 2, 1, "hehe");
+
+    // XXX: Find a way to make it be known the amount of lines youre supposed to
+    // draw BEFORE WE DRAW
     refresh();
   }
 
