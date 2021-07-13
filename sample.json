@@ -1,5 +1,5 @@
 {
-    "projects" : [
+    "projects" : {
       
       "etr" : {
         "path" : "~/Documents/pj/el_tercero",
@@ -22,7 +22,7 @@
         ]
       }
 
-    ]
+    }
 
 }
 

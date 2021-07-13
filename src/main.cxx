@@ -1,7 +1,10 @@
 #include <ncurses.h>
 #include <cstdbool>
+#include <cstdlib>
+#include <fstream>
 #include <iostream>
 #include <nlohmann/json.hpp>
+// using json = nlohmann::json;
 
 // THINK: perhaps we could make it so projects started with etr have a name
 #define cmvwprintw(screen, y, x, attrnum, format, ...) \
@@ -24,6 +27,21 @@ int main(void) {
   int xpos, ypos;
   int ch;
 
+  // variables for handling configs
+  std::ifstream f("sample.json");  // load our json
+  nlohmann::json pjdata = nlohmann::json::parse(f);
+  std::vector<std::string> keyz;
+
+  //  int datasize = pjdata["projects"].size();
+
+  for (auto& el : pjdata["projects"].items()) {
+    keyz.push_back(el.key());
+    //    std::cout << el.key() << std::endl;
+  }
+  for (auto lmao : keyz) {
+    std::cout << lmao << std::endl;
+  }
+  exit(EXIT_FAILURE);
   initscr();                     // start curses
   getmaxyx(stdscr, maxy, maxx);  // get info of terminal
 
