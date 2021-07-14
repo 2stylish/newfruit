@@ -1,9 +1,14 @@
-#include <ncursesw/curses.h>
 #include <cstdbool>
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <nlohmann/json.hpp>
+
+#ifdef wide
+#include <ncursesw/curses.h>
+#else
+#include <ncurses.h>
+#endif
 
 // THINK: perhaps we could make it so projects started with etr have a name
 #define cmvwprintw(screen, y, x, attrnum, format, ...) \
