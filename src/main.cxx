@@ -1,4 +1,4 @@
-#include <ncurses.h>
+#include <ncursesw/curses.h>
 #include <cstdbool>
 #include <cstdlib>
 #include <fstream>
@@ -22,6 +22,7 @@ enum colours {
 };
 
 int main(void) {
+  setlocale(LC_ALL, "en_US.UTF-8");
   int maxx, maxy;
   int xpos, ypos;
   int ch;
@@ -60,7 +61,7 @@ int main(void) {
 
   keypad(stdscr, TRUE);  // allow arrow keys and f's in main window
 
-  wborder(stdscr, ' ', '|', '=', '=', '+', '+', '+',
+  wborder(stdscr, '|', '|', '=', '=', '+', '+', '+',
           '+');  // add border to default screen
                  /* The parameters taken are
                   * 1. win: the window on which to operate
@@ -77,29 +78,38 @@ int main(void) {
   /*  */
   // TODO: GET FULL VALUES OF VECTORS AYOOOO
   /*  */
-  mvchgat(1, 1, -1, A_STANDOUT, BAR, NULL);
 
-  cmvwprintw(stdscr, 1, 1, TEXTBAR, "lmfao");
+  //  mvchgat(1, 1, -1, A_STANDOUT, BAR, NULL);
+
+  //  cmvwprintw(stdscr, 1, 1, TEXTBAR, "lmfao");
   refresh();
   while ((ch = getch()) != 'q') {
-    int i = 1;
+    int i = 2;
     if (is_term_resized(maxy, maxx)) {
       clear();
-      wborder(stdscr, ' ', '|', '=', '=', '+', '+', '+',
+      wborder(stdscr, '|', '|', '=', '=', '+', '+', '+',
               '+');  // add border to default screen
     }
     getmaxyx(stdscr, maxy,
              maxx);  // get info of terminal
                      // we do this after because otherwise the is_term_resized
                      // would give us true everytime
-    getyx(stdscr, ypos, xpos);
-    //    cmvwprintw(stdscr, 2, 2, GREEN1, "cursor pos y: %d x: %d", i, maxx);
+
+    for (auto b : keyz) {  // this prints the project titles to the scren
+      mvwprintw(stdscr, i, 1, b.c_str());
+      i++;
+    }
+    mvwprintw(stdscr, 17, 6, "\u2588");
+
+    // TODO:
     mvchgat(1, 1, -1, A_STANDOUT, BAR, NULL);
-    // mvchgat(1, 1, -1, A_NORMAL, 1, NULL);
-    cmvwprintw(stdscr, 1, 1, TEXTBAR, "lmfao");
-    mvwprintw(stdscr, 2, 1, "hehe");
+
+    //    mvchgat(1, 1, -1, A_STANDOUT, BAR, NULL);
+    //    cmvwprintw(stdscr, 1, 1, TEXTBAR, "lmfao");
+    //    mvwprintw(stdscr, 2, 1, "hehe");
 
     // XXX: Find a way to make it be known the amount of lines youre supposed to
+
     // draw BEFORE WE DRAW
     refresh();
   }
